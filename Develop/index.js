@@ -2,7 +2,6 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 
 const initGitQuestions = [
-
   { type: "input", message: "What is your GitHub email?", name: "email" },
 ];
 
@@ -16,6 +15,11 @@ const questions = [
     type: "input",
     message: "What is your GitHub user name?",
     name: "gitHubName",
+  },
+  {
+    type: "input",
+    message: "What is your GitHub email?",
+    name: "gitHubEmail",
   },
   {
     type: "input",
@@ -56,7 +60,7 @@ const questions = [
   {
     type: "input",
     message: "Any questions, concerns, or issues?",
-    name: "questions"
+    name: "questions",
   },
 ];
 
@@ -72,7 +76,7 @@ function init() {
         console.log("Success");
       }
     });
-    // this will create the 2nd line of readme describing the application was developed by the users reponse to githubname
+    // this will create the 2nd line of readme describing the application was developed by the users reponse to gitHubName
     fs.appendFileSync(
       "README.md",
       "This application was developed by: " + response.gitHubName + "\n" + "\n",
@@ -84,25 +88,42 @@ function init() {
         }
       }
     );
-    // adds the discription of the project that the users entered
-    fs.appendFileSync("README.md", "## Description" + "\n" + response.description + "\n", function (err) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Success");
-      }
-    });
+    // this will display the user's github email
     fs.appendFileSync(
-        "README.md",
-        "## Table of Contents" + "\n" + response.tableContents + "\n",
-        function (err) {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log("Success");
-          }
+      "README.md",
+      "## GitHub Email" + "\n" + response.gitHubEmail + "\n" + "\n",
+      function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Success");
         }
-      );
+      }
+    );
+    // adds the discription of the project that the users entered
+    fs.appendFileSync(
+      "README.md",
+      "## Description" + "\n" + response.description + "\n",
+      function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Success");
+        }
+      }
+    );
+    // creates a sub header for the table of contents
+    fs.appendFileSync(
+      "README.md",
+      "## Table of Contents" + "\n" + response.tableContents + "\n",
+      function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Success");
+        }
+      }
+    );
     //creates a sub header for installation and adds the instructions the users entered
     fs.appendFileSync(
       "README.md",
@@ -166,17 +187,18 @@ function init() {
         }
       }
     );
+    // creates a sub header for questions/concerns/issues
     fs.appendFileSync(
-        "README.md",
-        "## Questions/Concerns/Issues:" + "\n" + response.questions + "\n",
-        function (err) {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log("Success");
-          }
+      "README.md",
+      "## Questions/Concerns/Issues:" + "\n" + response.questions + "\n",
+      function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Success");
         }
-      );
+      }
+    );
   });
 }
 
