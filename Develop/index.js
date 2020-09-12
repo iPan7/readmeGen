@@ -1,9 +1,13 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const axios = require("axios");
 
-const initGitQuestions = [
-  { type: "input", message: "What is your GitHub email?", name: "email" },
-];
+async function init(){
+const userResponse = await inquirer;
+const gitUsername = userResponse.username;
+const gitResponse = await axios.get(`https://api.github.com/users/${gitUsername}`);
+const gitData = gitResponse.data;
+const gitProfileImage = gitData.avatar_url;
 
 const questions = [
   {
@@ -14,7 +18,7 @@ const questions = [
   {
     type: "input",
     message: "What is your GitHub user name?",
-    name: "gitHubName",
+    name: "username",
   },
   {
     type: "input",
@@ -64,7 +68,6 @@ const questions = [
   },
 ];
 
-function init() {
   inquirer.prompt(questions).then((response) => {
     // this will Create the first line and main header for the repo (that is what the "# " is for) using the users resonse to RepoName
     fs.appendFileSync("README.md", "# " + response.repoName + "\n", function (
@@ -79,7 +82,7 @@ function init() {
     // this will create the 2nd line of readme describing the application was developed by the users reponse to gitHubName
     fs.appendFileSync(
       "README.md",
-      "This application was developed by: " + response.gitHubName + "\n" + "\n",
+      "This application was developed by: " + response.username + "\n" + "\n",
       function (err) {
         if (err) {
           console.log(err);
@@ -199,7 +202,11 @@ function init() {
         }
       }
     );
+    fs.appendFileSync(
+      "README.md", [ProfileImage](gitProfileImage)
+    );
   });
-}
 
-init();
+};
+
+init ();
