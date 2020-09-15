@@ -2,73 +2,76 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 const axios = require("axios");
 
-async function init(){
-const userResponse = await inquirer;
-const gitUsername = userResponse.username;
-const gitResponse = await axios.get(`https://api.github.com/users/${gitUsername}`);
-const gitData = gitResponse.data;
-const gitProfileImage = gitData.avatar_url;
+async function init() {
+  const questions = [
+    {
+      type: "input",
+      message: "What is the name of your project?",
+      name: "repoName",
+    },
+    {
+      type: "input",
+      message: "What is your GitHub user name?",
+      name: "gitUsername",
+    },
+    {
+      type: "input",
+      message: "What is your GitHub email?",
+      name: "gitHubEmail",
+    },
+    {
+      type: "input",
+      message: "Please enter a description of your project.",
+      name: "description",
+    },
+    {
+      type: "input",
+      message: "Please enter your Table of Contents.",
+      name: "tableContents",
+    },
+    {
+      type: "input",
+      message: "What are the steps required to install your project?",
+      name: "installApp",
+    },
+    {
+      type: "input",
+      message: "Provide instructions for use of your project.",
+      name: "appInstructions",
+    },
+    {
+      type: "input",
+      message: "What license would you like to use?",
+      name: "license",
+    },
+    {
+      type: "input",
+      message:
+        "Please enter GitHub user names of contributors if there are any (If there are mulitple contributors, seperate names with a comma and no space. If none, write 'none'.)",
+      name: "contributors",
+    },
+    {
+      type: "input",
+      message: "Provide examples on how to run tests.",
+      name: "tests",
+    },
+    {
+      type: "input",
+      message: "Any questions, concerns, or issues?",
+      name: "appIssuesAndCont",
+    },
+  ];
 
-const questions = [
-  {
-    type: "input",
-    message: "What is the name of your project?",
-    name: "repoName",
-  },
-  {
-    type: "input",
-    message: "What is your GitHub user name?",
-    name: "username",
-  },
-  {
-    type: "input",
-    message: "What is your GitHub email?",
-    name: "gitHubEmail",
-  },
-  {
-    type: "input",
-    message: "Please enter a description of your project.",
-    name: "description",
-  },
-  {
-    type: "input",
-    message: "Please enter your Table of Contents.",
-    name: "tableContents",
-  },
-  {
-    type: "input",
-    message: "What are the steps required to install your project?",
-    name: "installApp",
-  },
-  {
-    type: "input",
-    message: "Provide instructions for use of your project.",
-    name: "appInstructions",
-  },
-  {
-    type: "input",
-    message: "What license would you like to use?",
-    name: "license",
-  },
-  {
-    type: "input",
-    message:
-      "Please enter GitHub user names of contributors if there are any (If there are mulitple contributors, seperate names with a comma and no space. If none, write 'none'.)",
-    name: "contributors",
-  },
-  {
-    type: "input",
-    message: "Provide examples on how to run tests.",
-    name: "tests",
-  },
-  {
-    type: "input",
-    message: "Any questions, concerns, or issues?",
-    name: "questions",
-  },
-];
+  const userResponse = await inquirer;
 
-  inquirer.prompt(questions).then((response) => {
+  inquirer.prompt(questions).then(async (response) => {
+    console.log(response);
+    const gitUsername = response.gitUsername;
+    const gitResponse = await axios.get(
+      `https://api.github.com/users/${gitUsername}`
+    );
+    const gitData = gitResponse.data;
+    const gitProfileImage = gitData.avatar_url;
     // this will Create the first line and main header for the repo (that is what the "# " is for) using the users resonse to RepoName
     fs.appendFileSync("README.md", "# " + response.repoName + "\n", function (
       err
@@ -79,10 +82,20 @@ const questions = [
         console.log("Success");
       }
     });
+    // This will add the user's github image
+    fs.appendFileSync("README.md", (gitProfileImage) + "\n",
+    function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Success");
+      }
+    }
+    );
     // this will create the 2nd line of readme describing the application was developed by the users reponse to gitHubName
     fs.appendFileSync(
       "README.md",
-      "This application was developed by: " + response.username + "\n" + "\n",
+      "This application was developed by: " + response.gitUsername + "\n" + "\n",
       function (err) {
         if (err) {
           console.log(err);
@@ -193,7 +206,7 @@ const questions = [
     // creates a sub header for questions/concerns/issues
     fs.appendFileSync(
       "README.md",
-      "## Questions/Concerns/Issues:" + "\n" + response.questions + "\n",
+      "## Questions/Concerns/Issues:" + "\n" + response.appIssuesAndCont + "\n",
       function (err) {
         if (err) {
           console.log(err);
@@ -202,11 +215,7 @@ const questions = [
         }
       }
     );
-    fs.appendFileSync(
-      "README.md", [ProfileImage](gitProfileImage)
-    );
   });
+}
 
-};
-
-init ();
+init();
