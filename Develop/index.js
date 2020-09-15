@@ -1,7 +1,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const axios = require("axios");
-
 async function init() {
   const questions = [
     {
@@ -61,9 +60,7 @@ async function init() {
       name: "appIssuesAndCont",
     },
   ];
-
   const userResponse = await inquirer;
-
   inquirer.prompt(questions).then(async (response) => {
     console.log(response);
     const gitUsername = response.gitUsername;
@@ -83,14 +80,14 @@ async function init() {
       }
     });
     // This will add the user's github image
-    fs.appendFileSync("README.md", (gitProfileImage) + "\n",
-    function (err) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Success");
+    fs.appendFileSync("README.md", `![](${gitProfileImage}) \n\n`,
+      function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Success");
+        }
       }
-    }
     );
     // this will create the 2nd line of readme describing the application was developed by the users reponse to gitHubName
     fs.appendFileSync(
@@ -168,9 +165,9 @@ async function init() {
     fs.appendFileSync(
       "README.md",
       "## Issue Reporting and Contributing" +
-        "\n" +
-        response.appIssuesAndCont +
-        "\n",
+      "\n" +
+      response.appIssuesAndCont +
+      "\n",
       function (err) {
         if (err) {
           console.log(err);
@@ -194,7 +191,7 @@ async function init() {
     // creates a sub header for licences and adds the licences the users entered
     fs.appendFileSync(
       "README.md",
-      "## Licence(s)" + "\n" + response.license + "\n",
+      "## License(s)" + "\n" + response.license + "\n",
       function (err) {
         if (err) {
           console.log(err);
@@ -217,5 +214,4 @@ async function init() {
     );
   });
 }
-
 init();

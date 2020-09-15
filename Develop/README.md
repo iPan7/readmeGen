@@ -1,9 +1,10 @@
-# y
-https://avatars3.githubusercontent.com/u/60904681?v=4
+# t
+![](https://avatars3.githubusercontent.com/u/60904681?v=4) 
+
 This application was developed by: iPan7
 
 ## GitHub Email
-ipanlilio7@gmail.com
+t
 
 ## Description
 t
@@ -17,7 +18,7 @@ t
 t
 ## Other Contibuting Developers:
 t
-## Licence(s)
+## License(s)
 t
 ## Questions/Concerns/Issues:
 t
